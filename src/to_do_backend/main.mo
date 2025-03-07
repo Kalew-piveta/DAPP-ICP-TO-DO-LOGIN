@@ -2,6 +2,8 @@ import Nat "mo:base/Nat";
 import Text "mo:base/Text";
 import Bool "mo:base/Bool";
 import Buffer "mo:base/Buffer";
+import Principal "mo:base/Principal";
+
 
 actor {
   type Tarefa = {
@@ -14,6 +16,11 @@ actor {
 
   var idTarefa : Nat = 0;
   var tarefas : Buffer.Buffer<Tarefa> = Buffer.Buffer<Tarefa>(10);
+
+  // Função para autenticação no login
+  public shared(message) func get_principal_client() : async Text {
+        return "Principal: " # Principal.toText(message.caller) # "!";
+    };
 
   // Função para adicionar itens ao buffer 'tarefas'.
   public func addTarefa(desc: Text, cat: Text, urg: Bool, con: Bool) : async () {
